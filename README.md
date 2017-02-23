@@ -1,9 +1,7 @@
 # Binary Message Parser
 
-Parses headers of binary messages to extract all of their bytes. Designed to
-handle data incoming from TCP sockets.
-
-Can handle parts of messages at the time and works with pipes.
+Puts together size-prefixed binary messages from received bytes. Works with
+pipes.
 
 # Example
 
@@ -36,7 +34,14 @@ fs.writeFileSync(filePath, rawData);
 fs.createReadStream(filePath)
 	.pipe(parser)
 	.on('finish', () => { fs.unlinkSync(filePath); });
+```
 
+Expected output:
+```
+message size: 8 data: 5
+message size: 8 data: 65536
+message size: 8 data: 5
+message size: 8 data: 65536
 ```
 
 # Header Extractor
@@ -50,10 +55,15 @@ Header extractors for some POD data types are available:
 const Parser = require('binary-message-parser');
 
 Parser.HeaderExtractorInt8
+Parser.HeaderExtractorUInt8
 Parser.HeaderExtractorInt16LE
+Parser.HeaderExtractorUInt16LE
 Parser.HeaderExtractorInt16BE
+Parser.HeaderExtractorUInt16BE
 Parser.HeaderExtractorInt32LE
+Parser.HeaderExtractorUInt32LE
 Parser.HeaderExtractorInt32BE
+Parser.HeaderExtractorUInt32BE
 ```
 
 Example of custom header extractor:
