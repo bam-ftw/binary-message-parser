@@ -227,8 +227,13 @@ const createPODExtractor = (headerByteCount, methodName) => {
 	};
 };
 
-module.exports.HeaderExtractorInt8    = createPODExtractor(1, 'readInt8');
-module.exports.HeaderExtractorInt16LE = createPODExtractor(2, 'readInt16LE');
-module.exports.HeaderExtractorInt16BE = createPODExtractor(2, 'readInt16BE');
-module.exports.HeaderExtractorInt32LE = createPODExtractor(4, 'readInt32LE');
-module.exports.HeaderExtractorInt32BE = createPODExtractor(4, 'readInt32BE');
+module.exports.HeaderExtractorInt8     = createPODExtractor(1, 'readInt8');
+module.exports.HeaderExtractorUInt8    = createPODExtractor(1, 'readUInt8');
+module.exports.HeaderExtractorInt16LE  = createPODExtractor(2, 'readInt16LE');
+module.exports.HeaderExtractorUInt16LE = createPODExtractor(2, 'readUInt16LE');
+module.exports.HeaderExtractorInt16BE  = createPODExtractor(2, 'readInt16BE');
+module.exports.HeaderExtractorUInt16BE = createPODExtractor(2, 'readUInt16BE');
+module.exports.HeaderExtractorInt32LE  = createPODExtractor(4, 'readInt32LE');
+module.exports.HeaderExtractorUInt32LE = createPODExtractor(4, 'readUInt32LE');
+module.exports.HeaderExtractorInt32BE  = createPODExtractor(4, 'readInt32BE');
+module.exports.HeaderExtractorUInt32BE = createPODExtractor(4, 'readUInt32BE');
