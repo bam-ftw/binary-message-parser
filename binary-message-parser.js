@@ -7,11 +7,13 @@ const ERR_INVALID_MSG_SIZE = new Error('invalid message size');
 /**
  * @event message - event is emitted when all message bytes are received and is
  * provided with buffer object containing those bytes
+ * @event error -
  */
-module.exports = class BinaryMessageParser extends stream.Writable { //EventEmitter {
+module.exports = class BinaryMessageParser extends stream.Writable {
 
 	/**
-	 * @param {Object} headerExtractor                      -
+	 * @param {Object} headerExtractor                      - object used for
+	 * determining size of the whole message
 	 * @param {Number} headerExtractor.headerByteSize       - number of bytes
 	 * that the meassage header consists of
 	 * @param {Function} headerExtractor.extractMessageSize - method that takes
