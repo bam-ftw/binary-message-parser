@@ -125,7 +125,10 @@ module.exports = class BinaryMessageParser extends stream.Writable { //EventEmit
 		const messageSize = this._extractMessageSize(dataBuffer, offset);
 
 		if (this.headerExtractor.validateMessageSize(messageSize) !== true) {
-			this._error(ERR_INVALID_MSG_SIZE, { size: messageSize });
+			const self = this;
+			setImmediate(() => {
+				self._error(ERR_INVALID_MSG_SIZE, { size: messageSize });
+			});
 			return -1;
 		}
 
@@ -165,7 +168,11 @@ module.exports = class BinaryMessageParser extends stream.Writable { //EventEmit
 			this.bMessageHeaderExtracted = true;
 
 			if (this.headerExtractor.validateMessageSize(this.expectedMessageSize) !== true) {
-				this._error(ERR_INVALID_MSG_SIZE, { size: this.expectedMessageSize });
+
+				const self = this;
+				setImmediate(() => {
+					self._error(ERR_INVALID_MSG_SIZE, { size: this.expectedMessageSize });
+				});
 				return -1;
 			}
 		}
@@ -198,7 +205,12 @@ module.exports = class BinaryMessageParser extends stream.Writable { //EventEmit
 		const message = Buffer.alloc(size);
 		dataBuffer.copy(message, 0, offset, offset + size);
 
-		this.emit('message', message);
+		const self = this;
+
+		setImmediate(() => {
+			self.emit('message', message);
+		})
+
 	}
 
 	_reset () {
