@@ -29,7 +29,7 @@ describe('BinaryMessageParser', () => {
 		}
 	});
 
-	it('should shutdown correctly', () => {
+	it('should shutdown correctly', done => {
 		const parser = new Parser(Parser.HeaderExtractorInt32BE);
 
 		parser.on('message', message => {
@@ -44,6 +44,8 @@ describe('BinaryMessageParser', () => {
 			const result = parser.parseBytes(Buffer.from([0, 0, 0, 4]));
 
 			expect(result).to.equal(false);
+
+			done();
 		});
 
 		const result = parser.parseBytes(Buffer.from([0, 0, 0, 1]));
@@ -51,7 +53,7 @@ describe('BinaryMessageParser', () => {
 		expect(result).to.equal(false);
 	});
 
-	it('should work with pipe', (done) => {
+	it('should work with a pipe', done => {
 		const rawData = Buffer.from([0, 0, 0, 8, 0, 0, 0, 5, 0, 0, 0, 8, 0, 0, 0, 5]);
 		const filePath = './test.dat';
 
@@ -88,12 +90,11 @@ describe('BinaryMessageParser', () => {
 		{ name: 'int32 LE', extractor: Parser.HeaderExtractorInt32LE, data: [ 8, 0, 0, 0, 0, 0, 0, 5 ] },
 		{ name: 'uint32 LE', extractor: Parser.HeaderExtractorUInt32LE, data: [ 8, 0, 0, 0, 0, 0, 0, 5 ] },
 	]) {
-		it('should work with header' + x.name, (done) => {
+		it('should work with header type ' + x.name, done => {
 			const parser = new Parser(x.extractor);
 			parser.on('message', message => {
 				const value = message.readInt32BE(x.extractor.headerByteCount);
 				expect(value).to.equal(5);
-				// expect(0).to.equal(5);
 				done();
 			});
 
