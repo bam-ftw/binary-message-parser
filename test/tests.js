@@ -4,7 +4,30 @@ const Parser = require('../index');
 const fs     = require('fs');
 
 describe('BinaryMessageParser', () => {
+	it('should work with messages split into chunks', done => {
+		const parser = new Parser(Parser.HeaderExtractorInt32BE);
 
+		const parts = [
+			Buffer.from([0, 0]),
+			Buffer.from([0, 8]),
+			Buffer.from([0, 0]),
+			Buffer.from([0, 5]),
+		];
+
+		parser.on('message', message => {
+			const value = message.readInt32BE(4);
+			expect(value).to.equal(5);
+			done();
+		});
+
+		parser.on('error', (err, args) => {
+			done(err);
+		});
+
+		for (let part of parts) {
+			parser.parseBytes(part);
+		}
+	});
 
 	it('should shutdown correctly', () => {
 		const parser = new Parser(Parser.HeaderExtractorInt32BE);
