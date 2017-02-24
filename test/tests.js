@@ -1,6 +1,6 @@
 'use strict';
 const expect = require('chai').expect;
-const Parser = require('../binary-message-parser');
+const Parser = require('../index');
 const fs     = require('fs');
 
 describe('BinaryMessageParser', () => {
